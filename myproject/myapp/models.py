@@ -1,8 +1,7 @@
-from django.db import models
+# from django.db import models
 from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
-from django.contrib.gis.db import models
-from django.core.files.storage import storages
+from django.contrib.gis.db import models 
 
 
 
@@ -19,7 +18,7 @@ class UserInfo(models.Model):
 
     areas_of_interest = models.TextField(blank=True)
 
-    user_documents= models.FileField(upload_to='documents')
+    user_documents= models.FileField(upload_to='documents/')
 
     birthday = models.DateField(null=True, blank=True)
 
@@ -35,9 +34,27 @@ class UserInfo(models.Model):
 
 
 
+
+
+
+
     def __str__(self):
-        return self.country
-    
+        return f"{self.pk} - {self.country}"
+
+    @property
+    def age(self):
+        if self.birthday:
+            from datetime import date
+            today = date.today()
+            return today.year - self.birthday.year - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
+        return None
+
+    @property
+    def is_geo_enabled(self):
+        return self.location_of_home_address or self.location_of_office_address
 
 
+
+
+   
  

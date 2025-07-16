@@ -51,7 +51,10 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'django_countries',
     'phonenumber_field',
+    'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_swagger',
+    'drf_yasg',
     'myapp',
     
     
@@ -154,4 +157,27 @@ PHONENUMBER_DEFAULT_REGION = 'NP'  # Replace 'US' with your preferred country co
 import os
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',  # for browsable API login
+        'rest_framework.authentication.TokenAuthentication',    # for token-based auth
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
+
+
+
+security_definitions = {
+    'Token': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    }
+}

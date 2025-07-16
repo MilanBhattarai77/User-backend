@@ -4,14 +4,14 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import UserInfo 
 from .serializers import UserInfoSerializer
-from django.conf.urls import url
+from django.urls import re_path 
 from rest_framework_swagger.views import get_swagger_view
 
 schema_view = get_swagger_view(title='Pastebin API')
 
 
 urlpatterns = [
-    url(r'^$', schema_view)
+    re_path(r'^$', schema_view)
 ]
 
 
@@ -30,8 +30,8 @@ class UserInfoView(APIView):
         Dynamically assign permissions based on the request method.
         """
         if self.request.method == 'GET' and self.kwargs.get('pk') is None:
-            return [AllowAny()]
-        return [IsAuthenticated()]
+            return [AllowAny()] # Public GET for listing
+        return [IsAuthenticated()]  # Auth required for everything else
 
 
 
