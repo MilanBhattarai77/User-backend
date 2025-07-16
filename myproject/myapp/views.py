@@ -40,7 +40,7 @@ class UserInfoView(APIView):
             return UserInfo.objects.get(pk=pk)
         except UserInfo.DoesNotExist:
             return None
-
+# test
 
 
     def get(self, request, pk=None):
